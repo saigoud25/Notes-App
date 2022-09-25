@@ -1,0 +1,99 @@
+Minimum Requirements:
+
+- One Can Sign Up
+- One can Sign In
+
+After Sign In:
+- User can Create a note
+- User can Read a note
+- User can Update a note
+- User can Delete a note
+
+
+A User can Have:
+- ID
+- Full Name
+- Email
+- Password
+- List of Notes
+
+A Note can Have:
+- ID
+- Title
+- Message
+- Created Date & Time
+
+
+
+USER:
+{
+	id: String,
+	name: String,
+	email: String,
+	password: String,
+	notes: [{
+				id: String,
+				title: String,
+				message: String,
+				date: Date
+			 }
+			]
+}
+
+
+
+API calls:
+-> User Sign In
+Get - http:localhost:3000/user/signin
+{
+	email: 'example@mail.in',
+	password: 'somehashedpassword2'
+}
+
+-> User Sing Up
+POST - http:localhost:3000/user/signup
+{
+	name: 'Abcs rams',
+	email: 'example@mail.in',
+	password: 'somehashedpassword2'
+}
+
+
+
+->Get all Notes of a specific USER
+GET - http:localhost:3000/notes
+{
+	id: '1'
+}
+
+->Create a new Note to the specific USER
+POST - http:localhost:3000/note
+{
+	user_id: '1',
+	title: 'note1',
+	message: 'message1'
+}
+
+
+->Update a note of specific USER
+PUT - http:localhost:3000/update
+{
+	user_id: '1',
+	note_id: 'n1',
+	title: 'note2',
+	message: 'message2'
+}
+
+
+->Delete a note of specific USER
+DELETE - http:localhost:3000/delete
+{
+	user_id: '1',
+	note_id: 'n1'
+}
+
+
+
+
+
+

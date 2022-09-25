@@ -1,0 +1,46 @@
+Minimum Requirements:
+- User can Create a note
+- User can Read a note
+- User can Update a note
+- User can Delete a note
+
+A Note can Have:
+- Title
+- Body/Message
+- Created Date & Time
+
+
+->Only one USER
+
+NOTE:
+	id: String
+	title: String
+	message: String
+	Date: Date
+
+
+
+API calls:
+GET - http:xxxx.xxx/
+-Gets the All Notes.
+
+POST - http:xxxx.xxx/addNote
+-Adds a Note to the DataBase
+
+PUT - http:xxxx.xxx/2323 (2323 is a random ID)
+-Update the a Note with given ID
+
+DELETE - http:xxxx.xxx/2323
+-Delete the a Note with given ID.
+
+
+example of Post Request:
+(post) http:xxxx.xxx/
+
+{
+	id: 2323
+	title: Example 
+	message: this is an example Message
+	date: 10-09-2022
+	time: 7:47
+}
