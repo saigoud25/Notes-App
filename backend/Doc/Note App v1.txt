@@ -33,7 +33,6 @@ PUT - http:xxxx.xxx/2323 (2323 is a random ID)
 DELETE - http:xxxx.xxx/2323
 -Delete the a Note with given ID.
 
-
 example of Post Request:
 (post) http:xxxx.xxx/
 
