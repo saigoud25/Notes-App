@@ -24,7 +24,7 @@ API calls:
 GET - http:xxxx.xxx/
 -Gets the All Notes.
 
-POST - http:xxxx.xxx/addNote
+POST - http:xxxx.xxx/
 -Adds a Note to the DataBase
 
 PUT - http:xxxx.xxx/2323 (2323 is a random ID)
