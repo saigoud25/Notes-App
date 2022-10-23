@@ -1,49 +1,69 @@
 const express = require("express");
-const Note = require("../models/note.js");
-const routes = express.Router();
+const User = require("../models/user.js");
+const router = express.Router();
 
-//On Get Request.
-routes.get('/', async (req, res) => {
+//Get all Notes from a User
+router.get('/:id', async (req, res) => {
     try {
-        //Fetches the All the Documents from the Collection (Note).
-        const data = await Note.find();
-        console.log(data);
-        res.status(200).json(data);
+        const { id }= req.params;
+        const user = await User.findById(id);
+        // console.log(user.notes);
+
+        res.json(user.notes);
     } catch (error) {
         console.log(error);
-        res.status(404).json({ message: error.message });
+        res.status(400).json({ message: error.message });
+    }
+}); 
+
+
+//Insert a Note
+router.post('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        var user = await User.findById(id);
+
+        user.notes.push({title: req.body.title, message: req.body.message, date: new Date().toISOString()});
+
+        user.save();        
+        res.json({notes: user.notes, message: "Note Created Successfully"});
+    } catch (error) {
+        res.status(400).json({ message: error.message }); 
     }
 });
 
-//On Post Request.
-routes.post('/', async (req, res) => {
-    try {
-        console.log(req.body);
-        //Create a new Note using given Body, Here ID is provided by the MongoDB by default.
-        const note = new Note({title: req.body.title, message: req.body.message, date: new Date().toISOString()});
-        //Saves the Document(note) in the Collection.
-        await note.save();
-        res.status(200).json(note);
-    } catch (error) {
-        console.log(error);
-        res.status(404).json({ message: error.message });
-    }
-});
 
 //On Put Request.
-routes.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         //From the body read the updated Title & Message.
+        const noteID = req.body.noteID;
         const newTitle = req.body.title;
-        const newMessage = req.body.title;
+        const newMessage = req.body.message;
 
-        //Find the Document by ID, update the title with newTitle and message with newMessage.
-        await Note.findByIdAndUpdate(id, {title: newTitle, message: newMessage});
+        const user = await User.findById(id);
+        
+        const arr = user.notes;
+        var flag = true;
+        for(var i = 0; i<arr.length; i++) {
+            const note = arr[i];
 
-        //Sending the Updated Document to the client.
-        const note = await Note.findById(id);
-        res.status(200).json(note);
+            if(note._id == noteID) {
+                note.title = newTitle;
+                note.message = newMessage;
+                flag = false;
+                break;
+            } 
+        }
+
+        if(flag) {
+            res.status(400).json({ message: "Note not Found" });
+            return;
+        }
+
+        user.save();
+        res.status(200).json({ notes: user.notes, message: "Note Successfully Updated"});
     } catch (error) {
         console.log(error);
         res.status(400).json({ message: error.message });
@@ -51,19 +71,39 @@ routes.put('/:id', async (req, res) => {
 });
 
 //On Delete Request.
-routes.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         //Get the ID from the parameters provided in the URL
         const {id} = req.params;
+        const noteID = req.body.noteID;
 
-        //Find the Document by ID and Delete it.
-        const data = await Note.findByIdAndDelete(id);
+        const user = await User.findById(id);
 
-        res.status(200).json({ data,  message: 'Note Deleted Sucessfully..'});
+        const arr = user.notes;
+        var flag = true;
+
+        for(var i = 0; i<arr.length; i++) {
+            const note = arr[i];
+
+            if(note._id == noteID) {
+                user.notes.splice(i, 1);
+                flag = false;
+                break;
+            }
+        }
+
+        if(flag) {
+            res.status(400).json({ message: "Note not Found" });
+            return;
+        }
+
+        user.save();
+
+        res.status(200).json({ notes: user.notes,  message: 'Note Deleted Sucessfully..'});
     } catch (error) {
         console.log(error);
         res.status(404).json({ message: error.message });
     }
 });
 
-module.exports = routes;
+module.exports = router;

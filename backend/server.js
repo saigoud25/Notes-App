@@ -2,6 +2,7 @@ require("dotenv").config()
 
 const express = require("express");
 const note = require("./routes/note.js");
+const user = require("./routes/user.js");
 const mongoose = require('mongoose');
 
 const app = express();
@@ -16,6 +17,8 @@ db.once('open', () => {
 
 //Able to read the JSON data in the Body.
 app.use(express.json());
+
+app.use('/user', user);
 
 //When the starting page hits.
 app.use('/', note);
