@@ -46,50 +46,49 @@ API calls:
 -> User Sign In
 Get - http:localhost:3000/user/signin
 {
-	email: 'example@mail.in',
-	password: 'somehashedpassword2'
+	"email": example@mail.in,
+	"password": "somehashedpassword2"
 }
 
 -> User Sing Up
 POST - http:localhost:3000/user/signup
 {
-	name: 'Abcs rams',
-	email: 'example@mail.in',
-	password: 'somehashedpassword2'
+	"name": "Abcs rams",
+	"email": "example@mail.in",
+	"password": "somehashedpassword2"
 }
+
+//Testing API
+->To get All Users
+GET - http:localhost:3000/user/all
 
 
 
 ->Get all Notes of a specific USER
-GET - http:localhost:3000/notes
-{
-	user_id: '1'	
-}
+GET - http:localhost:3000/:user_id
+
 
 ->Create a new Note to the specific USER
-POST - http:localhost:3000/note
+POST - http:localhost:3000/:user_id
 {
-	user_id: '1',
-	title: 'note1',
-	message: 'message1'
+	"title": 'note1',
+	"message": 'message1'
 }
 
 
 ->Update a note of specific USER
-PUT - http:localhost:3000/update
+PUT - http:localhost:3000/:user_id
 {
-	user_id: '1',
-	note_id: 'n1',
-	title: 'note2',
-	message: 'message2'
+	"note_id": "23wsu8",
+	"title": "Title-2",
+	"message": "Message-2"
 }
 
 
 ->Delete a note of specific USER
-DELETE - http:localhost:3000/delete
+DELETE - http:localhost:3000/:user_id
 {
-	user_id: '1',
-	note_id: 'n1'
+	"note_id": "234kakd92"
 }
 
 user_id : "as3847ddsa"
